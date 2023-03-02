@@ -51,7 +51,7 @@ const app = {
     isMuted: false,
 
     config: JSON.parse(localStorage.getItem(PLAYER_STORAGE_KEY)) || {},
-    
+
     songs: [
         {
             name: 'Chandelier',
@@ -196,37 +196,37 @@ const app = {
 
         // thanh range chay
         audio.ontimeupdate = function () {
-            const timeDuration = audio.duration;           
+            const timeDuration = audio.duration;
             if (timeDuration) {
                 const progressPercent = Math.floor(audio.currentTime * 100 / timeDuration);
-                progress.value = progressPercent;   
+                progress.value = progressPercent;
             }
-            
+
             Nmb1Start.innerText = Math.floor(audio.currentTime / 60).toLocaleString().padStart(2, "0");
             Nmb2Start.innerText = Math.floor(audio.currentTime % 60).toLocaleString().padStart(2, "0");
-            
+
         }
         // thanh volume chay
-        volume.oninput  = function (e) {
+        volume.oninput = function (e) {
             audio.volume = e.currentTarget.value / 100;
-            if( audio.volume == 0){
+            if (audio.volume == 0) {
                 audio.muted = true;
                 volumeIcon.classList.remove('fa-volume-high');
                 volumeIcon.classList.add('fa-volume-xmark');
-            }else{
+            } else {
                 audio.muted = false;
                 volumeIcon.classList.remove('fa-volume-xmark');
                 volumeIcon.classList.add('fa-volume-high');
             }
-            
+
         }
-        
+
         // xử lý hien thi thoi gian
         audio.onloadedmetadata = function () {
-            
+
             Nmb1End.innerText = Math.floor(audio.duration / 60).toLocaleString().padStart(2, "0");
             Nmb2End.innerText = Math.round(audio.duration % 60).toLocaleString().padStart(2, "0");
-            
+
             Nmb1Start.innerText = Math.floor(audio.currentTime / 60).toLocaleString().padStart(2, "0");
             Nmb2Start.innerText = Math.floor(audio.currentTime % 60).toLocaleString().padStart(2, "0");
         }
@@ -313,18 +313,18 @@ const app = {
 
         // xu ly khi click vao btnVolume
         volumeIcon.onclick = function () {
-           if(audio.muted == false){
+            if (audio.muted == false) {
                 audio.muted = true;
                 volumeIcon.classList.remove('fa-volume-high');
                 volumeIcon.classList.add('fa-volume-xmark');
                 volume.value = 0;
-           }else{
+            } else {
                 audio.muted = false;
                 volumeIcon.classList.remove('fa-volume-xmark');
                 volumeIcon.classList.add('fa-volume-high');
                 volume.value = Math.floor(audio.volume * 100);
-                
-           }
+
+            }
         }
     },
 
@@ -398,3 +398,22 @@ const app = {
 
 app.start();
 
+
+
+const toggle = document.querySelector('.icon-toggle');
+const back = document.querySelector('.icon-back');
+const menu = document.querySelector('.wrapper-playlist');
+const activeClass = 'is-show';
+
+window.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && !e.target.matches('.icon-toggle')) {
+        menu.classList.remove(activeClass);
+    }
+})
+
+toggle.addEventListener('click', function () {
+    menu.classList.add(activeClass);
+})
+back.addEventListener('click', function () {
+    menu.classList.remove(activeClass);
+})
